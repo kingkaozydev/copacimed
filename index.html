@@ -125,38 +125,6 @@
         );
 
         const App = () => {
-            const [timeLeft, setTimeLeft] = useState(360000); // 100 horas em segundos
-            const [subs, setSubs] = useState(45230);
-            const goal = 50000;
-
-            // Timer regressivo simulado
-            useEffect(() => {
-                const timer = setInterval(() => {
-                    setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
-                }, 1000);
-                return () => clearInterval(timer);
-            }, []);
-
-            // Simulação de ganho de subs
-            useEffect(() => {
-                const subInterval = setInterval(() => {
-                    if (Math.random() > 0.5) {
-                        setSubs(prev => prev + Math.floor(Math.random() * 3));
-                        setTimeLeft(prev => prev + 300); // Adiciona 5 min por sub
-                    }
-                }, 4000);
-                return () => clearInterval(subInterval);
-            }, []);
-
-            const formatTime = (seconds) => {
-                const h = Math.floor(seconds / 3600);
-                const m = Math.floor((seconds % 3600) / 60);
-                const s = seconds % 60;
-                return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-            };
-
-            const progressPercentage = Math.min((subs / goal) * 100, 100);
-
             return (
                 <div className="min-h-screen flex flex-col font-sans relative">
                     
@@ -182,87 +150,98 @@
                         </div>
                     </header>
 
-                    {/* Área Central (Subathon Banner + Player/Chat) */}
+                    {/* Área Central */}
                     <main className="flex-1 flex flex-col p-4 md:p-6 gap-6 max-w-[1800px] mx-auto w-full">
                         
-                        {/* Banner Subathon */}
-                        <section className="bg-white comic-border shadow-comic-lg flex flex-col md:flex-row items-stretch overflow-hidden relative">
+                        {/* Banner Subathon Focado */}
+                        <section className="bg-white comic-border shadow-comic-lg flex flex-col items-center justify-center p-8 md:p-12 overflow-hidden relative text-center">
                             {/* Background Pattern */}
                             <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '15px 15px' }}></div>
                             
-                            {/* Info Left */}
-                            <div className="p-6 md:w-1/3 flex flex-col justify-center border-b-4 md:border-b-0 md:border-r-4 border-black relative z-10 bg-jvGrey">
-                                <div className="flex items-center gap-3 mb-2">
+                            <div className="relative z-10 flex flex-col items-center gap-4 w-full">
+                                <div className="flex items-center justify-center gap-3 bg-jvYellow comic-border px-6 py-2 transform -rotate-1 shadow-comic-hover mb-2">
                                     <TrophyIcon />
-                                    <h2 className="font-russo text-xl md:text-2xl uppercase tracking-wide">Destino: <span className="text-green-700">Brasil</span></h2>
+                                    <h2 className="font-russo text-xl md:text-3xl uppercase tracking-wide">Destino: <span className="text-green-700">Copa do Mundo</span></h2>
                                 </div>
-                                <h3 className="font-black text-3xl md:text-5xl uppercase leading-none mb-4">
-                                    Subathon<br/>Copa do Mundo
+                                <h3 className="font-black text-4xl md:text-7xl uppercase leading-tight text-black drop-shadow-[4px_4px_0px_#cccccc]">
+                                    SUBATHON COPA DO MUNDO
                                 </h3>
-                                <p className="font-bold text-sm bg-jvYellow inline-block px-2 py-1 comic-border self-start shadow-comic-hover transform -rotate-1">
-                                    A cada SUB ganhe +5 MINUTOS!
-                                </p>
-                            </div>
-
-                            {/* Timer Center */}
-                            <div className="p-6 md:w-1/3 flex flex-col items-center justify-center bg-black text-white relative z-10 border-b-4 md:border-b-0 md:border-r-4 border-black">
-                                <span className="font-russo text-jvYellow text-lg tracking-widest mb-2">TEMPO RESTANTE</span>
-                                <div className="font-russo text-5xl md:text-7xl animate-timer drop-shadow-[4px_4px_0px_#ffcc00] text-center">
-                                    {formatTime(timeLeft)}
-                                </div>
-                            </div>
-
-                            {/* Goal Right */}
-                            <div className="p-6 md:w-1/3 flex flex-col justify-center relative z-10 bg-white">
-                                <div className="flex justify-between items-end mb-2">
-                                    <span className="font-russo text-lg uppercase">Meta de Inscrições</span>
-                                    <span className="font-black text-2xl">{subs.toLocaleString()} / {goal.toLocaleString()}</span>
-                                </div>
-                                <div className="w-full h-8 bg-gray-200 comic-border overflow-hidden relative shadow-inner">
-                                    <div 
-                                        className="h-full bg-jvYellow border-r-4 border-black transition-all duration-500 ease-out"
-                                        style={{ width: `${progressPercentage}%` }}
-                                    ></div>
-                                    <div className="absolute inset-0 flex items-center justify-center font-bold text-xs uppercase mix-blend-difference text-white">
-                                        Rumo aos jogos do Brasil!
-                                    </div>
+                                <div className="flex flex-col md:flex-row items-center gap-4 mt-4 bg-jvGrey px-8 py-3 comic-border">
+                                    <span className="font-marker text-4xl md:text-5xl transform -rotate-2">jonvlogs</span>
+                                    <span className="font-russo text-2xl mx-2 text-jvDarkGrey">X</span>
+                                    <div className="transform scale-150 ml-4"><CimedLogo /></div>
                                 </div>
                             </div>
                         </section>
 
-                        {/* Player e Chat Container */}
-                        <section className="flex flex-col lg:flex-row gap-6 h-[600px] lg:h-[700px] w-full">
+                        {/* Layout Player, QR e Chat */}
+                        <section className="flex flex-col lg:flex-row gap-6 w-full">
                             
-                            {/* Player Wrapper */}
-                            <div className="flex-1 lg:w-3/4 bg-black comic-border shadow-comic-lg flex flex-col relative group">
-                                <div className="bg-jvGrey border-b-4 border-black px-4 py-2 flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 rounded-full bg-red-500 border-2 border-black animate-pulse"></div>
-                                        <span className="font-russo text-sm uppercase tracking-wider">JonVlogs Transmissão Oficial</span>
+                            {/* Coluna Esquerda: Player + Doação */}
+                            <div className="flex-1 lg:w-3/4 flex flex-col gap-6">
+                                
+                                {/* Player Wrapper */}
+                                <div className="bg-black comic-border shadow-comic-lg flex flex-col relative group h-[400px] md:h-[600px]">
+                                    <div className="bg-jvGrey border-b-4 border-black px-4 py-2 flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded-full bg-red-500 border-2 border-black animate-pulse"></div>
+                                            <span className="font-russo text-sm uppercase tracking-wider">JonVlogs Transmissão Oficial</span>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <div className="w-4 h-4 rounded-full bg-white border-2 border-black"></div>
+                                            <div className="w-4 h-4 rounded-full bg-white border-2 border-black"></div>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <div className="w-4 h-4 rounded-full bg-white border-2 border-black"></div>
-                                        <div className="w-4 h-4 rounded-full bg-white border-2 border-black"></div>
+                                    <div className="flex-1 w-full bg-black relative">
+                                        <iframe 
+                                            src="https://player.kick.com/jonvlogs?autoplay=true" 
+                                            className="absolute top-0 left-0 w-full h-full border-none" 
+                                            allowFullScreen>
+                                        </iframe>
                                     </div>
                                 </div>
-                                <div className="flex-1 w-full bg-black relative">
-                                    {/* Embed da Kick (Player) */}
-                                    <iframe 
-                                        src="https://player.kick.com/jonvlogs?autoplay=true" 
-                                        className="absolute top-0 left-0 w-full h-full border-none" 
-                                        allowFullScreen>
-                                    </iframe>
+
+                                {/* Seção QR Code / Doação */}
+                                <div className="bg-white comic-border shadow-comic-lg p-6 flex flex-col md:flex-row items-center gap-6">
+                                    {/* Espaço da Imagem do QR Code */}
+                                    <div className="w-40 h-40 bg-jvGrey comic-border flex-shrink-0 flex items-center justify-center relative overflow-hidden shadow-inner">
+                                        <div className="text-center absolute z-0 flex flex-col items-center opacity-50">
+                                            <svg className="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                                            <span className="font-black text-xs uppercase tracking-tighter">SUA IMAGEM<br/>QR CODE AQUI</span>
+                                        </div>
+                                        {/* Quando colocar a imagem real do QR Code, substitua o src abaixo e remova a classe 'opacity-0' */}
+                                        <img src="" alt="QR Code PIX" className="w-full h-full object-cover relative z-10 opacity-0" />
+                                    </div>
+                                    
+                                    {/* Informações e Botão */}
+                                    <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left gap-3">
+                                        <h4 className="font-russo text-3xl uppercase text-black drop-shadow-[2px_2px_0px_#ffcc00]">
+                                            Faça o tempo da live subir!
+                                        </h4>
+                                        <p className="font-bold text-gray-700 text-sm md:text-base">
+                                            Escaneie o QR Code ao lado ou clique no botão para enviar o seu PIX e aparecer na tela ao vivo. Sua ajuda nos leva direto pros jogos do Brasil!
+                                        </p>
+                                        <a 
+                                            href="https://pixgg.com/jonvlogs" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer" 
+                                            className="mt-2 bg-jvYellow text-black comic-border px-6 py-4 font-russo uppercase hover:bg-white transition-colors shadow-comic-hover flex items-center justify-center gap-2 transform hover:-translate-y-1 w-full md:w-auto text-sm md:text-base"
+                                        >
+                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                                            MANDE UMA MENSAGEM NA LIVE (e aumente o tempo do SUBATHON)
+                                        </a>
+                                    </div>
                                 </div>
+
                             </div>
 
                             {/* Chat Wrapper */}
-                            <div className="w-full lg:w-1/4 h-[400px] lg:h-full bg-white comic-border shadow-comic-lg flex flex-col flex-shrink-0">
+                            <div className="w-full lg:w-1/4 h-[500px] lg:h-auto bg-white comic-border shadow-comic-lg flex flex-col flex-shrink-0">
                                 <div className="bg-jvYellow border-b-4 border-black px-4 py-2 flex items-center justify-between">
                                     <span className="font-russo text-sm uppercase tracking-wider">Chat da Kick</span>
                                     <KickIcon />
                                 </div>
                                 <div className="flex-1 w-full bg-[#0b0e11] relative overflow-hidden">
-                                    {/* Embed da Kick (Chat) */}
                                     <iframe 
                                         src="https://kick.com/popout/jonvlogs/chat" 
                                         className="absolute top-0 left-0 w-full h-full border-none"
@@ -276,27 +255,23 @@
 
                     </main>
 
-                    {/* Footer / Sponsor Marquee */}
+                    {/* Footer / Sponsor Marquee Focado */}
                     <footer className="mt-8">
                         <div className="marquee-container shadow-comic-lg bg-white">
-                            <div className="marquee-content gap-12 items-center px-4">
-                                {/* Duplicando para efeito infinito contínuo */}
-                                {[1, 2, 3].map((_, i) => (
+                            <div className="marquee-content gap-16 items-center px-4">
+                                {/* Duplicando para efeito infinito contínuo, agora apenas Cimed e JonVlogs */}
+                                {[...Array(6)].map((_, i) => (
                                     <React.Fragment key={i}>
-                                        <span className="font-russo text-2xl uppercase tracking-widest text-black">SUPERBET</span>
-                                        <span className="font-marker text-3xl mx-4">jonvlogs</span>
-                                        <span className="font-russo text-2xl uppercase tracking-widest text-green-500 drop-shadow-[1px_1px_0px_#000]">KICK</span>
-                                        <CimedLogo />
-                                        <span className="font-russo text-2xl uppercase tracking-widest text-black">DRINKISS</span>
-                                        <span className="font-russo text-2xl uppercase tracking-widest text-black">BGAMING</span>
-                                        <span className="font-russo text-2xl uppercase tracking-widest text-black">KEYDROP</span>
+                                        <span className="font-marker text-4xl mx-4">jonvlogs</span>
+                                        <span className="text-black font-black">X</span>
+                                        <div className="transform scale-125"><CimedLogo /></div>
                                     </React.Fragment>
                                 ))}
                             </div>
                         </div>
                         <div className="text-center py-6 bg-jvGrey border-t-4 border-black">
                             <p className="font-bold text-sm uppercase text-black/70">
-                                © 2026 JonVlogs. Arte & Subathon Rumo à Copa do Mundo. Patrocínio Cimed.
+                                © 2026 JonVlogs. Arte & Subathon Rumo à Copa do Mundo. Patrocínio Exclusivo Cimed.
                             </p>
                         </div>
                     </footer>

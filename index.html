@@ -42,10 +42,14 @@
 
     <style>
         body {
-            /* Fundo branco limpo com textura subtil de comic book */
+            /* Fundo com a imagem do motorhome estilizada e overlay elegante */
             background-color: #ffffff;
-            background-image: radial-gradient(#e5e7eb 2px, transparent 2px);
-            background-size: 30px 30px;
+            background-image: 
+                radial-gradient(rgba(0, 0, 0, 0.05) 2px, transparent 2px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.95) 100%),
+                url('https://i.imgur.com/T0LLPwN.png');
+            background-size: 30px 30px, 100% 100%, cover;
+            background-position: top left, top left, center center;
             background-attachment: fixed;
             color: #000;
             overflow-x: hidden;
@@ -153,10 +157,10 @@
                     </header>
 
                     {/* Área Central */}
-                    <main className="flex-1 flex flex-col p-4 md:p-6 gap-6 max-w-[1800px] mx-auto w-full">
+                    <main className="flex-1 flex flex-col p-4 md:p-6 gap-6 max-w-[1800px] mx-auto w-full relative z-10">
                         
                         {/* Banner Subathon Focado */}
-                        <section className="bg-white comic-border shadow-comic-lg flex flex-col items-center justify-center p-8 md:p-12 relative text-center mt-2 md:mt-6">
+                        <section className="bg-white comic-border shadow-comic-lg flex flex-col items-center justify-center p-8 md:p-12 relative text-center mt-2 md:mt-6 backdrop-blur-sm bg-opacity-95">
                             {/* Background Pattern com container para respeitar as bordas arredondadas */}
                             <div className="absolute inset-0 rounded-[8px] overflow-hidden pointer-events-none">
                                 <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '15px 15px' }}></div>
@@ -206,7 +210,7 @@
                         </section>
 
                         {/* Layout Player, QR e Chat */}
-                        <section className="flex flex-col lg:flex-row gap-6 w-full">
+                        <section className="flex flex-col lg:flex-row gap-6 w-full relative z-10">
                             
                             {/* Coluna Esquerda: Player + Doação */}
                             <div className="flex-1 lg:w-3/4 flex flex-col gap-6">
@@ -233,7 +237,7 @@
                                 </div>
 
                                 {/* Seção QR Code / Doação */}
-                                <div className="bg-white comic-border shadow-comic-lg p-6 flex flex-col md:flex-row items-center gap-6">
+                                <div className="bg-white comic-border shadow-comic-lg p-6 flex flex-col md:flex-row items-center gap-6 backdrop-blur-sm bg-opacity-95">
                                     {/* Espaço da Imagem do QR Code */}
                                     <div className="w-40 h-40 bg-jvGrey comic-border flex-shrink-0 flex items-center justify-center relative overflow-hidden shadow-inner">
                                         <div className="text-center absolute z-0 flex flex-col items-center opacity-50">
@@ -267,7 +271,7 @@
                             </div>
 
                             {/* Chat Wrapper */}
-                            <div className="w-full lg:w-1/4 h-[500px] lg:h-auto bg-white comic-border shadow-comic-lg flex flex-col flex-shrink-0">
+                            <div className="w-full lg:w-1/4 h-[500px] lg:h-auto bg-white comic-border shadow-comic-lg flex flex-col flex-shrink-0 backdrop-blur-sm bg-opacity-95">
                                 <div className="bg-jvYellow border-b-4 border-black px-4 py-2 flex items-center justify-between">
                                     <span className="font-russo text-sm uppercase tracking-wider">Chat da Kick</span>
                                     <KickIcon />
@@ -287,8 +291,8 @@
                     </main>
 
                     {/* Footer / Sponsor Marquee Focado */}
-                    <footer className="mt-8">
-                        <div className="marquee-container shadow-comic-lg bg-white">
+                    <footer className="mt-8 relative z-10">
+                        <div className="marquee-container shadow-comic-lg bg-white bg-opacity-95 backdrop-blur-sm">
                             <div className="marquee-content gap-16 items-center px-4">
                                 {/* Duplicando para efeito infinito contínuo, agora apenas Cimed e JonVlogs */}
                                 {[...Array(6)].map((_, i) => (

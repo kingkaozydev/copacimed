@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jonvlogs | Subathon Copa do Mundo 🏆💊</title>
+    <title>Jonvlogs & Cimed | Rumo ao Hexa 🏆</title>
     
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Novas Fontes: Bebas Neue e Montserrat -->
+    <!-- Fontes: Bebas Neue e Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,400;0,600;0,800;0,900;1,900&display=swap" rel="stylesheet">
@@ -26,11 +26,8 @@
                         display: ['"Bebas Neue"', 'cursive'],
                     },
                     colors: {
-                        cimed: {
-                            yellow: '#FFCC00',
-                            red: '#E3000F',
-                            dark: '#B38F00',
-                        },
+                        cimed: { yellow: '#FFCC00', red: '#E3000F' },
+                        brasil: { green: '#009c3b', yellow: '#ffdf00', blue: '#002776' },
                         kick: '#53fc18',
                         dark: '#050507',
                         surface: '#111111'
@@ -41,34 +38,21 @@
                         'drive': 'drive 1.5s linear infinite',
                         'motorhome-bounce': 'motorhomeBounce 0.5s ease-in-out infinite alternate',
                         'glow-pulse': 'glowPulse 2s ease-in-out infinite alternate',
-                        'pill-float': 'pillFloat 10s linear infinite',
+                        'splash-container': 'splashContainer 4.5s ease-in-out forwards',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
-                        marquee: {
-                            '0%': { transform: 'translateX(0%)' },
-                            '100%': { transform: 'translateX(-50%)' }
-                        },
-                        floatTrophy: {
-                            '0%, 100%': { transform: 'translateY(0) rotate(-5deg)' },
-                            '50%': { transform: 'translateY(-12px) rotate(5deg)' }
-                        },
-                        drive: {
-                            '0%': { backgroundPosition: '0px 0' },
-                            '100%': { backgroundPosition: '-100px 0' }
-                        },
-                        motorhomeBounce: {
-                            '0%': { transform: 'translateY(0)' },
-                            '100%': { transform: 'translateY(-3px)' }
-                        },
+                        marquee: { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
+                        floatTrophy: { '0%, 100%': { transform: 'translateY(0) rotate(-5deg)' }, '50%': { transform: 'translateY(-12px) rotate(5deg)' } },
+                        drive: { '0%': { backgroundPosition: '0px 0' }, '100%': { backgroundPosition: '-100px 0' } },
+                        motorhomeBounce: { '0%': { transform: 'translateY(0)' }, '100%': { transform: 'translateY(-3px)' } },
                         glowPulse: {
-                            '0%': { filter: 'drop-shadow(0 0 15px rgba(255,204,0,0.5)) drop-shadow(0 0 30px rgba(227,0,15,0.3))' },
-                            '100%': { filter: 'drop-shadow(0 0 35px rgba(255,204,0,1)) drop-shadow(0 0 60px rgba(227,0,15,0.6))' }
+                            '0%': { filter: 'drop-shadow(0 0 15px rgba(0,156,59,0.4)) drop-shadow(0 0 30px rgba(255,223,0,0.3))' },
+                            '100%': { filter: 'drop-shadow(0 0 35px rgba(0,156,59,0.8)) drop-shadow(0 0 60px rgba(255,223,0,0.6))' }
                         },
-                        pillFloat: {
-                            '0%': { transform: 'translateY(110vh) rotate(0deg)', opacity: 0 },
-                            '10%': { opacity: 0.6 },
-                            '90%': { opacity: 0.6 },
-                            '100%': { transform: 'translateY(-10vh) rotate(360deg)', opacity: 0 }
+                        splashContainer: {
+                            '0%, 80%': { opacity: 1, zIndex: 9999 },
+                            '100%': { opacity: 0, zIndex: -1, visibility: 'hidden' }
                         }
                     }
                 }
@@ -79,67 +63,22 @@
         body { background-color: #050507; color: #fff; overflow: hidden; margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #050507; }
-        ::-webkit-scrollbar-thumb { background: #FFCC00; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #009c3b; border-radius: 10px; }
         
-        /* Estrada Animada do Motorhome */
-        .highway {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 20%, #151515 100%);
-            z-index: 0;
-        }
-        .highway-lines {
-            position: absolute;
-            bottom: 25px;
-            left: 0;
-            width: 200%;
-            height: 4px;
-            background-image: repeating-linear-gradient(90deg, #FFCC00 0, #FFCC00 50px, transparent 50px, transparent 100px);
-            animation: drive 1s linear infinite;
-            opacity: 0.5;
-            box-shadow: 0 0 10px #FFCC00;
-        }
-
-        /* Paineis de vidro escuros e elegantes */
-        .glass-panel {
-            background: rgba(10, 10, 12, 0.85);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 204, 0, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-        }
-
-        /* Container do Video Responsivo Absoluto */
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        @media (max-width: 1023px) {
-            .video-wrapper {
-                padding-top: 56.25%; /* 16:9 Aspect Ratio para mobile */
-                height: 0;
-            }
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Texto com textura de ouro */
-        .text-gold {
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0px 4px 15px rgba(255, 204, 0, 0.4);
-        }
+        .highway { position: absolute; bottom: 0; left: 0; width: 100%; height: 120px; background: linear-gradient(to bottom, transparent 0%, rgba(0,156,59,0.05) 20%, #05140a 100%); z-index: 0; }
+        .highway-lines { position: absolute; bottom: 25px; left: 0; width: 200%; height: 4px; background-image: repeating-linear-gradient(90deg, #ffdf00 0, #ffdf00 50px, transparent 50px, transparent 100px); animation: drive 1s linear infinite; opacity: 0.8; box-shadow: 0 0 15px #ffdf00; }
+        .glass-panel { background: rgba(10, 15, 12, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(0, 156, 59, 0.3); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9); }
+        
+        /* 3D Flip Card Styles */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .flip-transition { transition: transform 1.2s cubic-bezier(0.4, 0.2, 0.2, 1); }
+        
+        .video-wrapper { position: relative; width: 100%; height: 100%; }
+        @media (max-width: 1023px) { .video-wrapper { padding-top: 56.25%; height: 0; } }
+        .video-wrapper iframe, .video-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -148,150 +87,165 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- SVGs CUSTOMIZADOS & DETALHADOS ---
-
+        // --- SVGs ---
+        // Ícone Kick Corrigido (Letra K)
         const KickIcon = ({ className }) => (
             <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-                <path d="M5.5 2h3.5v5.5h3.5V2h6v20h-6v-5.5H9V22H5.5V2z"/>
+                <path d="M4 2h5v8h2l5-8h6l-6.5 9L22 22h-6l-5-7.5H9V22H4V2z"/>
             </svg>
         );
 
-        const CimedIcon = ({ className }) => (
-            <svg viewBox="0 0 100 30" fill="currentColor" className={className}>
-                <text x="0" y="24" fontFamily="Bebas Neue" fontSize="32" fontWeight="bold" letterSpacing="2">CIMED</text>
+        // Estrela do Loading
+        const StarSVG = ({ className }) => (
+            <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
         );
 
-        // Taça da Copa do Mundo Premium em SVG
-        const WorldCupTrophy = ({ className }) => (
-            <svg viewBox="0 0 100 150" className={className}>
-                <defs>
-                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#D4AF37" />
-                        <stop offset="50%" stopColor="#FFF2CD" />
-                        <stop offset="100%" stopColor="#AA7A00" />
-                    </linearGradient>
-                    <linearGradient id="malachite" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#006400" />
-                        <stop offset="50%" stopColor="#00A86B" />
-                        <stop offset="100%" stopColor="#006400" />
-                    </linearGradient>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                {/* Globo */}
-                <circle cx="50" cy="35" r="25" fill="url(#goldGradient)" filter="url(#glow)"/>
-                {/* Detalhes do Globo */}
-                <path d="M 35 20 Q 50 10 65 20 Q 75 35 65 50 Q 50 60 35 50 Q 25 35 35 20" fill="none" stroke="#AA7A00" strokeWidth="2" opacity="0.6"/>
-                {/* Corpo do Troféu */}
-                <path d="M 40 58 C 25 80, 20 110, 30 120 L 70 120 C 80 110, 75 80, 60 58 C 55 58, 45 58, 40 58 Z" fill="url(#goldGradient)" filter="url(#glow)"/>
-                {/* Detalhes Humanos abstratos (espirais) */}
-                <path d="M 45 58 Q 30 90 40 110 M 55 58 Q 70 90 60 110" fill="none" stroke="#FFF2CD" strokeWidth="3" opacity="0.8"/>
-                {/* Base Verde (Malaquita) */}
-                <rect x="35" y="120" width="30" height="6" fill="url(#malachite)" rx="2"/>
-                <rect x="30" y="128" width="40" height="15" fill="url(#goldGradient)" rx="3"/>
-                <rect x="35" y="130" width="30" height="4" fill="url(#malachite)" rx="1"/>
-            </svg>
-        );
-
-        // Motorhome em SVG para a animação de fundo
-        const Motorhome = () => (
-            <div className="absolute bottom-[40px] right-[10%] w-[250px] md:w-[350px] animate-motorhome-bounce z-10" style={{ filter: 'drop-shadow(15px 15px 20px rgba(0,0,0,0.8))' }}>
-                <svg viewBox="0 0 300 120" width="100%" height="100%">
-                    <defs>
-                        <linearGradient id="rvBody" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#f8f9fa" />
-                            <stop offset="100%" stopColor="#e9ecef" />
-                        </linearGradient>
-                    </defs>
-                    {/* Farol brilhando na estrada */}
-                    <path d="M 280 80 L 500 40 L 500 120 L 280 95 Z" fill="url(#headlightGlow)" className="animate-pulse" opacity="0.5"/>
-                    <defs>
-                        <linearGradient id="headlightGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#FFCC00" stopOpacity="0.8"/>
-                            <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
-                        </linearGradient>
-                    </defs>
-                    
-                    {/* Carroceria principal */}
-                    <path d="M 10 90 L 10 20 Q 10 10 20 10 L 220 10 Q 250 10 260 30 L 290 60 Q 295 65 295 70 L 295 90 Q 295 95 290 95 L 15 95 Q 10 95 10 90 Z" fill="url(#rvBody)"/>
-                    
-                    {/* Faixas da Cimed (Amarelo e Vermelho) */}
-                    <path d="M 10 50 L 240 50 L 265 75 L 295 75" fill="none" stroke="#FFCC00" strokeWidth="8"/>
-                    <path d="M 10 60 L 235 60 L 260 85 L 295 85" fill="none" stroke="#E3000F" strokeWidth="8"/>
-                    
-                    {/* Janelas */}
-                    <rect x="30" y="25" width="50" height="20" rx="3" fill="#111" />
-                    <rect x="90" y="25" width="50" height="20" rx="3" fill="#111" />
-                    <rect x="150" y="25" width="50" height="20" rx="3" fill="#111" />
-                    <polygon points="220,25 250,25 265,45 220,45" fill="#111" />
-
-                    {/* Porta */}
-                    <rect x="180" y="55" width="25" height="40" rx="2" fill="#ddd" stroke="#999" strokeWidth="1"/>
-                    
-                    {/* Rodas */}
-                    <circle cx="60" cy="95" r="15" fill="#222" stroke="#555" strokeWidth="3"/>
-                    <circle cx="60" cy="95" r="7" fill="#ccc"/>
-                    <circle cx="230" cy="95" r="15" fill="#222" stroke="#555" strokeWidth="3"/>
-                    <circle cx="230" cy="95" r="7" fill="#ccc"/>
-                    
-                    {/* Farol */}
-                    <ellipse cx="292" cy="85" rx="3" ry="6" fill="#FFCC00" filter="drop-shadow(0 0 5px #FFCC00)"/>
-                    <ellipse cx="12" cy="80" rx="2" ry="5" fill="#E3000F" filter="drop-shadow(0 0 5px #E3000F)"/>
-                    
-                    {/* Logo Cimed no Motorhome */}
-                    <text x="50" y="80" fontFamily="Bebas Neue" fontSize="16" fill="#111" fontWeight="bold">CIMED NA COPA</text>
-                </svg>
-            </div>
-        );
-
-        // Cápsulas Cimed Flutuantes (Partículas)
-        const FloatingPills = () => {
-            const pills = Array.from({ length: 15 });
+        // --- COMPONENTE: LOADING COM ESTRELAS ---
+        const LoadingStars = () => {
             return (
-                <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-                    {pills.map((_, i) => (
-                        <div 
-                            key={i} 
-                            className="absolute animate-pill-float"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                animationDuration: `${10 + Math.random() * 15}s`,
-                                animationDelay: `${Math.random() * 10}s`,
-                                filter: 'drop-shadow(0 5px 10px rgba(0,0,0,0.5))'
-                            }}
-                        >
-                            <svg width="20" height="40" viewBox="0 0 20 40">
-                                <rect x="0" y="0" width="20" height="20" rx="10" fill="#FFCC00" />
-                                <rect x="0" y="20" width="20" height="20" rx="10" fill="#E3000F" />
-                                <rect x="0" y="18" width="20" height="4" fill="#FFFFFF" opacity="0.3"/>
-                            </svg>
+                <div className="relative w-20 h-20 animate-spin-slow mt-8">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                        <div key={i} className="absolute inset-0" style={{ transform: `rotate(${i * 72}deg)` }}>
+                            <StarSVG className="w-5 h-5 text-brasil-yellow drop-shadow-[0_0_8px_rgba(255,223,0,0.8)] mx-auto -mt-2" />
                         </div>
                     ))}
                 </div>
             );
         };
 
-        // --- COMPONENTES DA INTERFACE ---
+        // --- TELA DE ABERTURA ---
+        const SplashScreen = () => (
+            <div className="fixed inset-0 bg-[#05140a] flex flex-col items-center justify-center animate-splash-container z-[9999] overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center mix-blend-screen opacity-50">
+                    <div className="absolute w-[800px] h-[800px] bg-brasil-green/40 rounded-full blur-[100px]"></div>
+                    <div className="absolute w-[600px] h-[600px] bg-brasil-yellow/20 rounded-full blur-[80px]"></div>
+                </div>
+                
+                <div className="relative z-10 flex flex-col items-center">
+                    <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Logotipo_da_Cimed.svg/1280px-Logotipo_da_Cimed.svg.png" 
+                        alt="Cimed Oficial" 
+                        className="h-20 md:h-28 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" 
+                    />
+                    <p className="text-white mt-4 tracking-[0.5em] font-sans font-bold text-sm md:text-base text-brasil-yellow drop-shadow-md">
+                        APRESENTA
+                    </p>
+                    <LoadingStars />
+                </div>
+            </div>
+        );
+
+        // --- PLACAR AO VIVO (API CONFIGURÁVEL) ---
+        const LiveScore = () => {
+            const [matchData, setMatchData] = useState({ home: 'BRA', away: 'ARG', homeScore: 2, awayScore: 0, time: "2T 32'" });
+            const [loading, setLoading] = useState(false);
+
+            useEffect(() => {
+                // Estrutura funcional para requisição da API de placar no dia do jogo
+                const fetchPlacar = async () => {
+                    try {
+                        setLoading(true);
+                        // Substitua a URL abaixo pela API de placar real no dia
+                        // const response = await fetch('https://api-de-futebol-exemplo.com/live/match_id');
+                        // const data = await response.json();
+                        // setMatchData({
+                        //    home: data.team1.code, 
+                        //    away: data.team2.code, 
+                        //    homeScore: data.score.team1, 
+                        //    awayScore: data.score.team2, 
+                        //    time: data.time_elapsed
+                        // });
+                        setLoading(false);
+                    } catch (error) {
+                        console.error("Erro ao buscar placar:", error);
+                        setLoading(false);
+                    }
+                };
+
+                // Executa a chamada imediatamente e configura um intervalo de atualização (ex: 30 em 30s)
+                fetchPlacar();
+                // const intervalId = setInterval(fetchPlacar, 30000);
+                // return () => clearInterval(intervalId);
+            }, []);
+
+            return (
+                <div className="bg-[#0b1511] border-b border-brasil-green/40 px-6 py-2 flex items-center justify-between shadow-[0_4px_20px_rgba(0,156,59,0.15)] z-30">
+                    <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>
+                        <span className="text-xs font-bold tracking-widest text-brasil-yellow uppercase">AO VIVO - COPA DO MUNDO</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-6 font-display text-2xl tracking-wider">
+                        <span className="text-white">{matchData.home}</span>
+                        <div className="bg-black border border-brasil-green/50 px-4 py-0.5 rounded text-brasil-yellow font-black shadow-inner">
+                            {loading ? '--' : matchData.homeScore} <span className="mx-1 text-white/50">-</span> {loading ? '--' : matchData.awayScore}
+                        </div>
+                        <span className="text-white">{matchData.away}</span>
+                    </div>
+                    
+                    <div className="text-sm font-bold text-brasil-green">{matchData.time}</div>
+                </div>
+            );
+        };
+
+        // --- MOTORHOME DO BRASIL ---
+        const Motorhome = () => (
+            <div className="absolute bottom-[40px] right-[10%] w-[250px] md:w-[350px] animate-motorhome-bounce z-10" style={{ filter: 'drop-shadow(15px 15px 25px rgba(0,156,59,0.3))' }}>
+                <svg viewBox="0 0 300 120" width="100%" height="100%">
+                    <defs>
+                        <linearGradient id="rvBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#009c3b" />
+                            <stop offset="100%" stopColor="#00722a" />
+                        </linearGradient>
+                        <linearGradient id="headlightGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#ffdf00" stopOpacity="0.9"/>
+                            <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    
+                    <path d="M 280 80 L 500 40 L 500 120 L 280 95 Z" fill="url(#headlightGlow)" className="animate-pulse" opacity="0.6"/>
+                    <path d="M 10 90 L 10 20 Q 10 10 20 10 L 220 10 Q 250 10 260 30 L 290 60 Q 295 65 295 70 L 295 90 Q 295 95 290 95 L 15 95 Q 10 95 10 90 Z" fill="url(#rvBody)"/>
+                    
+                    {/* Faixas Brasil */}
+                    <path d="M 10 50 L 240 50 L 265 75 L 295 75" fill="none" stroke="#ffdf00" strokeWidth="6"/>
+                    <path d="M 10 58 L 235 58 L 260 83 L 295 83" fill="none" stroke="#002776" strokeWidth="4"/>
+                    
+                    <rect x="30" y="15" width="40" height="15" rx="3" fill="#111" />
+                    <rect x="80" y="15" width="40" height="15" rx="3" fill="#111" />
+                    <rect x="130" y="15" width="40" height="15" rx="3" fill="#111" />
+                    <polygon points="200,15 240,15 255,30 200,30" fill="#111" />
+                    <rect x="180" y="45" width="25" height="50" rx="2" fill="#ddd" stroke="#999" strokeWidth="1"/>
+                    
+                    <circle cx="60" cy="95" r="15" fill="#111" stroke="#333" strokeWidth="3"/>
+                    <circle cx="60" cy="95" r="6" fill="#ccc"/>
+                    <circle cx="230" cy="95" r="15" fill="#111" stroke="#333" strokeWidth="3"/>
+                    <circle cx="230" cy="95" r="6" fill="#ccc"/>
+                    
+                    <ellipse cx="292" cy="85" rx="3" ry="6" fill="#fff" filter="drop-shadow(0 0 5px #fff)"/>
+                    <ellipse cx="12" cy="80" rx="2" ry="5" fill="#002776" filter="drop-shadow(0 0 5px #002776)"/>
+                    
+                    {/* Textos Organizados */}
+                    <text x="100" y="62" fontFamily="Bebas Neue" fontSize="26" fill="#fff" fontWeight="bold" textAnchor="middle" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.8)'}}>
+                        JONVLOGS &amp; CIMED
+                    </text>
+                    <text x="100" y="85" fontFamily="Bebas Neue" fontSize="22" fill="#ffdf00" fontWeight="bold" textAnchor="middle" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.8)'}}>
+                        RUMO AO HEXA
+                    </text>
+                </svg>
+            </div>
+        );
 
         const MarqueeBanner = () => {
-            const texts = [
-                "🏆 SUBATHON RUMO AO HEXA", "💊 PATROCÍNIO MASTER CIMED", "🔥 JONVLOGS NA ESTRADA", "🚀 LOUCURA NA KICK",
-                "🏆 SUBATHON RUMO AO HEXA", "💊 PATROCÍNIO MASTER CIMED", "🔥 JONVLOGS NA ESTRADA", "🚀 LOUCURA NA KICK"
-            ];
-            
+            const texts = ["⭐ RUMO AO HEXA", "🏆 COPA DO MUNDO 2026", "💊 PATROCÍNIO CIMED", "🇧🇷 SELEÇÃO BRASILEIRA", "⭐ RUMO AO HEXA", "🏆 COPA DO MUNDO 2026", "💊 PATROCÍNIO CIMED", "🇧🇷 SELEÇÃO BRASILEIRA"];
             return (
-                <div className="bg-gradient-to-r from-cimed-red via-cimed-yellow to-cimed-red text-black overflow-hidden py-1 relative z-50 border-b border-white/20 shadow-[0_0_20px_rgba(255,204,0,0.4)]">
-                    <div className="flex w-[200%] animate-marquee items-center">
+                <div className="bg-brasil-green text-white overflow-hidden py-1.5 relative z-50 border-b border-brasil-yellow shadow-[0_0_15px_rgba(0,156,59,0.6)]">
+                    <div className="flex w-[200%] animate-marquee items-center font-bold">
                         {texts.map((text, i) => (
-                            <div key={i} className="flex-1 text-center font-display text-lg tracking-widest uppercase flex items-center justify-center gap-6">
+                            <div key={i} className="flex-1 text-center font-display text-lg md:text-xl tracking-widest uppercase flex items-center justify-center gap-6">
                                 <span>{text}</span>
-                                <KickIcon className="w-4 h-4 text-black" />
+                                <StarSVG className="w-4 h-4 text-brasil-yellow" />
                             </div>
                         ))}
                     </div>
@@ -299,153 +253,144 @@
             );
         };
 
-        const SubathonTimer = () => {
-            const [time, setTime] = useState(360000); 
-
-            useEffect(() => {
-                const timer = setInterval(() => setTime(prev => prev > 0 ? prev - 1 : 0), 1000);
-                return () => clearInterval(timer);
-            }, []);
-
-            const formatTime = (totalSeconds) => {
-                const h = Math.floor(totalSeconds / 3600);
-                const m = Math.floor((totalSeconds % 3600) / 60);
-                const s = totalSeconds % 60;
-                return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-            };
-
-            return (
-                <div className="flex flex-col items-center justify-center bg-black/80 border-2 border-cimed-yellow/50 rounded-xl px-8 py-2 relative overflow-hidden group shadow-[0_0_30px_rgba(255,204,0,0.2)]">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cimed-red/10 via-cimed-yellow/10 to-transparent"></div>
-                    <span className="text-xs font-sans text-cimed-yellow uppercase font-bold tracking-[0.3em] mb-0.5">SUBATHON LIVE</span>
-                    <div className="text-5xl font-display text-white tracking-widest drop-shadow-[0_0_15px_rgba(255,204,0,0.8)]">
-                        {formatTime(time)}
-                    </div>
-                </div>
-            );
-        };
-
         // --- APP PRINCIPAL ---
         const App = () => {
+            const [showKickPlayer, setShowKickPlayer] = useState(false);
+
+            useEffect(() => {
+                // Animação de revelação do player: espera 5 segundos (tempo da splash + suspense)
+                const timer = setTimeout(() => {
+                    setShowKickPlayer(true);
+                }, 5500); 
+                return () => clearTimeout(timer);
+            }, []);
+
             return (
                 <div className="flex flex-col h-screen relative bg-dark font-sans overflow-hidden">
-                    
-                    {/* BACKGROUND ABSURDO */}
-                    <div className="absolute inset-0 z-0 pointer-events-none">
-                        {/* Imagem de Fundo (Estrada Estelar) */}
-                        <img 
-                            src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1974&auto=format&fit=crop" 
-                            className="w-full h-full object-cover opacity-20"
-                            alt="Background"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-dark via-dark/90 to-dark"></div>
-                        
-                        {/* Brilhos Cimed no Fundo */}
-                        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-cimed-yellow/10 blur-[150px] rounded-full mix-blend-screen animate-glow-pulse"></div>
-                        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-cimed-red/10 blur-[150px] rounded-full mix-blend-screen"></div>
+                    <SplashScreen />
 
-                        {/* Elementos da Estrada e Motorhome */}
-                        <div className="highway">
-                            <div className="highway-lines"></div>
-                        </div>
+                    {/* FUNDO BRASIL (CBF VIBE) */}
+                    <div className="absolute inset-0 z-0 pointer-events-none">
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#021006] via-dark/95 to-dark"></div>
+                        <img src="https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1974&auto=format&fit=crop" className="w-full h-full object-cover opacity-10 mix-blend-screen" alt="Background" />
+                        
+                        <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-brasil-green/15 blur-[180px] rounded-full mix-blend-screen animate-glow-pulse"></div>
+                        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-brasil-yellow/10 blur-[150px] rounded-full mix-blend-screen"></div>
+
+                        <div className="highway"><div className="highway-lines"></div></div>
                         <Motorhome />
-                        <FloatingPills />
                     </div>
 
-                    {/* CABEÇALHO */}
                     <div className="z-20 relative flex flex-col">
                         <MarqueeBanner />
                         
-                        <header className="px-4 py-4 md:px-8 lg:py-6 flex flex-col lg:flex-row items-center justify-between gap-6 glass-panel border-b border-cimed-yellow/30 bg-black/60">
-                            
-                            {/* Logo & Info Jonvlogs */}
+                        {/* CABEÇALHO */}
+                        <header className="px-4 py-4 md:px-8 lg:py-5 flex flex-col lg:flex-row items-center justify-between gap-6 glass-panel border-b-2 border-brasil-yellow/50 bg-[#051109]/90">
                             <div className="flex items-center gap-5">
-                                {/* Avatar Imponente */}
-                                <div className="relative group cursor-pointer">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-cimed-yellow to-kick rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-glow-pulse"></div>
+                                {/* Avatar do Jon Vlogs */}
+                                <div className="relative group cursor-pointer bg-brasil-green rounded-full p-1 shadow-[0_0_20px_rgba(0,156,59,0.8)] border border-brasil-yellow">
                                     <img 
-                                        src="https://yt3.googleusercontent.com/ytc/AIdro_mN-U6PcdU0w4V1J1sP5H8N9tJbE7M_jO_HwPq36A=s900-c-k-c0x00ffffff-no-rj" 
+                                        src="https://static.draft5.gg/player/5677-jon-vlogs-aaf9ddeec8b63a89633642cdcd43cfc58dfb0829.png" 
                                         alt="Jonvlogs Avatar" 
-                                        className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-black object-cover relative z-10"
-                                        onError={(e) => { e.target.src = 'https://ui-avatars.com/api/?name=Jon+Vlogs&background=FFCC00&color=000&size=200'; }}
+                                        className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover relative z-10 bg-black"
                                     />
-                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-kick text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase flex items-center gap-1 border border-black z-20 shadow-lg">
+                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-kick text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase flex items-center gap-1 border border-black z-20 shadow-lg whitespace-nowrap">
                                         <div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse"></div> AO VIVO
                                     </div>
                                 </div>
-
                                 <div className="flex flex-col justify-center">
-                                    <h1 className="text-4xl md:text-5xl font-display text-white tracking-wide uppercase drop-shadow-lg leading-none mb-1">
-                                        JON VLOGS
+                                    <h1 className="text-3xl md:text-5xl font-display text-white tracking-wide uppercase drop-shadow-md leading-none mb-1 flex items-center gap-3">
+                                        JON VLOGS 
+                                        {/* Escudo CBF no Cabeçalho */}
+                                        <img src="https://upload.wikimedia.org/wikipedia/pt/thumb/2/2b/Confedera%C3%A7%C3%A3o_Brasileira_de_Futebol_2019.svg/1200px-Confedera%C3%A7%C3%A3o_Brasileira_de_Futebol_2019.svg.png" alt="CBF" className="h-8 md:h-10 object-contain drop-shadow-[0_0_10px_rgba(255,223,0,0.5)]" />
                                     </h1>
-                                    <p className="text-cimed-yellow text-sm md:text-base font-bold font-sans uppercase tracking-widest flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-cimed-red"></span>
-                                        Projeto Copa do Mundo
+                                    <p className="text-brasil-yellow text-sm md:text-base font-black font-sans uppercase tracking-widest flex items-center gap-2 drop-shadow-md">
+                                        RUMO AO HEXA 2026
                                     </p>
                                 </div>
                             </div>
-
-                            {/* Área Central: Taça + Timer */}
-                            <div className="flex items-center gap-6 md:gap-10">
-                                <div className="hidden md:block w-20 h-28 animate-float-trophy drop-shadow-[0_0_20px_rgba(255,204,0,0.6)]">
-                                    <WorldCupTrophy className="w-full h-full" />
-                                </div>
-                                <SubathonTimer />
+                            
+                            {/* Taça da Copa à Direita */}
+                            <div className="hidden md:block w-16 md:w-20 h-auto animate-float-trophy drop-shadow-[0_0_35px_rgba(255,223,0,0.8)]">
+                                <img 
+                                    src="https://logodownload.org/wp-content/uploads/2018/02/taca-copa-do-mundo-1.png" 
+                                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://pngimg.com/uploads/world_cup/world_cup_PNG71.png'; }}
+                                    alt="Taça da Copa do Mundo" 
+                                    className="w-full h-full object-contain" 
+                                />
                             </div>
                         </header>
+                        
+                        {/* PLACAR DA API */}
+                        <LiveScore />
                     </div>
 
-                    {/* ÁREA PRINCIPAL: PLAYER E CHAT (Layout Grid Responsivo) */}
-                    <main className="flex-1 z-20 relative p-3 md:p-6 w-full max-w-[1920px] mx-auto flex flex-col lg:flex-row gap-4 lg:gap-6 min-h-0">
+                    {/* ÁREA PRINCIPAL: PLAYER E CHAT */}
+                    <main className="flex-1 z-20 relative p-3 md:p-6 w-full max-w-[1920px] mx-auto flex flex-col lg:flex-row gap-4 lg:gap-6 min-h-0 perspective-1000">
                         
-                        {/* Container do Video (Adapta-se perfeitamente) */}
-                        <div className="flex-1 rounded-2xl overflow-hidden glass-panel border border-cimed-yellow/40 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative group bg-black">
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cimed-red via-cimed-yellow to-kick z-50"></div>
-                            <div className="video-wrapper">
-                                <iframe 
-                                    src="https://player.kick.com/jonvlogs?autoplay=true" 
-                                    allowFullScreen 
-                                    title="Jonvlogs Kick Player"
-                                ></iframe>
+                        {/* Container do Vídeo (Flip Card 3D) */}
+                        <div className={`flex-1 rounded-2xl glass-panel border border-brasil-yellow/40 shadow-[0_0_40px_rgba(0,156,59,0.3)] relative transform-style-3d flip-transition ${showKickPlayer ? 'rotate-y-180' : ''}`}>
+                            
+                            {/* Frente: Banner Cimed */}
+                            <div className="absolute inset-0 backface-hidden bg-[#0a0a0a] rounded-2xl flex flex-col items-center justify-center overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0a150c] to-brasil-green/20"></div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Logotipo_da_Cimed.svg/1280px-Logotipo_da_Cimed.svg.png" alt="Cimed" className="w-64 z-10 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] mb-8" />
+                                <div className="z-10 text-center font-display text-4xl text-white tracking-widest bg-black/50 px-8 py-3 rounded border border-brasil-green/30 backdrop-blur-sm">
+                                    CONECTANDO COM A LIVE...
+                                </div>
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brasil-green via-brasil-yellow to-brasil-blue z-50"></div>
+                            </div>
+
+                            {/* Verso: Player Kick */}
+                            <div className="absolute inset-0 backface-hidden rotate-y-180 bg-black rounded-2xl overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brasil-green via-brasil-yellow to-brasil-blue z-50"></div>
+                                <div className="video-wrapper">
+                                    {showKickPlayer && (
+                                        <iframe src="https://player.kick.com/jonvlogs?autoplay=true" allowFullScreen title="Jonvlogs Kick Player"></iframe>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
                         {/* Container do Chat */}
-                        <div className="w-full lg:w-[400px] xl:w-[450px] h-[400px] lg:h-full rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-2xl flex flex-col bg-[#0b0e11] shrink-0">
-                            <div className="px-5 py-4 bg-black/80 border-b border-white/5 flex items-center justify-between shrink-0">
+                        <div className="w-full lg:w-[400px] xl:w-[450px] h-[400px] lg:h-full rounded-2xl overflow-hidden glass-panel border border-brasil-green/40 shadow-[0_0_30px_rgba(0,156,59,0.2)] flex flex-col bg-[#0b0e11] shrink-0">
+                            <div className="px-5 py-4 bg-black/95 border-b border-brasil-yellow/20 flex items-center justify-between shrink-0">
                                 <div className="flex items-center gap-2">
-                                    <KickIcon className="w-6 h-6 text-kick" />
+                                    <KickIcon className="w-6 h-6 text-kick drop-shadow-[0_0_5px_rgba(83,252,24,0.6)]" />
                                     <span className="font-display text-xl text-white tracking-wide">CHAT AO VIVO</span>
                                 </div>
-                                <span className="bg-cimed-yellow text-black px-2 py-1 rounded text-xs font-bold font-sans uppercase tracking-widest shadow-[0_0_10px_rgba(255,204,0,0.5)]">
-                                    #CimedNaCopa
+                                {/* Badge Corrigida para a temática da Seleção */}
+                                <span className="bg-brasil-green text-white px-2 py-1 rounded text-xs font-bold font-sans uppercase tracking-widest shadow-[0_0_10px_rgba(0,156,59,0.5)] border border-brasil-yellow/50">
+                                    #BrasilNaCopa
                                 </span>
                             </div>
-                            <div className="flex-1 relative">
-                                <iframe 
-                                    src="https://kick.com/popout/jonvlogs/chat" 
-                                    className="absolute top-0 left-0 w-full h-full border-0"
-                                    title="Jonvlogs Kick Chat"
-                                ></iframe>
+                            <div className="flex-1 relative bg-black">
+                                <iframe src="https://kick.com/popout/jonvlogs/chat" className="absolute top-0 left-0 w-full h-full border-0" title="Jonvlogs Kick Chat"></iframe>
                             </div>
                         </div>
-
                     </main>
 
-                    {/* RODAPÉ: PATROCÍNIO MASTER CIMED EXCLUSIVO */}
-                    <div className="h-24 md:h-28 shrink-0 z-30 bg-gradient-to-t from-black via-black/90 to-transparent border-t border-cimed-red/30 flex items-center justify-center relative overflow-hidden mt-auto">
+                    {/* RODAPÉ CENTRALIZADO */}
+                    <div className="h-24 md:h-28 shrink-0 z-30 bg-[#051109]/95 border-t border-brasil-green/40 flex items-center justify-center relative mt-auto">
+                        <div className="absolute bottom-0 w-full h-1.5 bg-gradient-to-r from-brasil-green via-brasil-yellow to-brasil-blue"></div>
                         
-                        {/* Luzes de fundo do rodapé */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cimed-yellow/10 to-transparent"></div>
-                        <div className="absolute bottom-0 w-full h-1 bg-gradient-to-r from-cimed-red via-cimed-yellow to-cimed-red"></div>
-
-                        <div className="flex flex-col items-center justify-center z-10 animate-glow-pulse group cursor-pointer">
-                            <p className="text-[10px] md:text-xs font-sans text-white/50 uppercase tracking-[0.4em] mb-1 group-hover:text-white transition-colors">
-                                Patrocínio Master Exclusivo
+                        <div className="flex flex-col items-center justify-center z-10 w-full px-4">
+                            <p className="text-[10px] md:text-xs font-sans text-white/60 uppercase tracking-[0.4em] mb-4 font-bold text-center">
+                                PATROCÍNIO OFICIAL • RUMO AO HEXA
                             </p>
-                            <div className="flex items-center gap-6">
-                                {/* O Logotipo é construído via SVG nativo renderizado brilhante */}
-                                <CimedIcon className="w-32 md:w-48 h-auto text-cimed-yellow drop-shadow-[0_0_15px_rgba(255,204,0,0.8)]" />
+                            <div className="flex items-center justify-center gap-8 md:gap-16 w-full max-w-2xl">
+                                <img 
+                                    src="https://upload.wikimedia.org/wikipedia/pt/thumb/2/2b/Confedera%C3%A7%C3%A3o_Brasileira_de_Futebol_2019.svg/1200px-Confedera%C3%A7%C3%A3o_Brasileira_de_Futebol_2019.svg.png" 
+                                    alt="CBF" 
+                                    className="h-12 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-110 drop-shadow-[0_0_15px_rgba(255,223,0,0.3)]" 
+                                />
+                                <div className="w-px h-10 bg-white/20"></div>
+                                {/* Logo Cimed - Sem o filtro amarelo agressivo, em sua cor e visibilidade real */}
+                                <img 
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Logotipo_da_Cimed.svg/1280px-Logotipo_da_Cimed.svg.png" 
+                                    alt="Logo Cimed" 
+                                    className="h-8 md:h-10 w-auto object-contain transition-transform duration-300 hover:scale-110 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" 
+                                />
                             </div>
                         </div>
                     </div>
